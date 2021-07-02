@@ -1,5 +1,6 @@
 public enum DI {
     public static func load(_ parts: [DIPart]) throws {
+        let parts = parts.flatMap(\.allParts)
         var errors: [Error] = []
         let registrator = DIRegistrator()
         parts.forEach {
