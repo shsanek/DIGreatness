@@ -6,6 +6,7 @@ public final class DIRegistrator {
     }
 }
 
+// swiftlint:disable line_length
 extension DIRegistrator {
     @discardableResult
     public func register<Type>(
@@ -22,7 +23,7 @@ extension DIRegistrator {
         self.addItem(item)
         return item
     }
-    
+
     @discardableResult
     public func register<Type, A1>(
         file: String = #file,
@@ -39,7 +40,7 @@ extension DIRegistrator {
         self.addItem(item)
         return item
     }
-    
+
     @discardableResult
     public func register<Type, A1, A2>(
         file: String = #file,
@@ -57,7 +58,7 @@ extension DIRegistrator {
         self.addItem(item)
         return item
     }
-    
+
     @discardableResult
     public func register<Type, A1, A2, A3>(
         file: String = #file,
@@ -76,7 +77,7 @@ extension DIRegistrator {
         self.addItem(item)
         return item
     }
-    
+
     @discardableResult
     public func register<Type, A1, A2, A3, A4>(
         file: String = #file,
@@ -96,7 +97,7 @@ extension DIRegistrator {
         self.addItem(item)
         return item
     }
-   
+
     @discardableResult
     public func register<Type, A1, A2, A3, A4, A5>(
         file: String = #file,
@@ -211,7 +212,7 @@ extension DIRegistrator {
         self.addItem(item)
         return item
     }
-    
+
     @discardableResult
     public func register<Type, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>(
         file: String = #file,
@@ -237,7 +238,7 @@ extension DIRegistrator {
         self.addItem(item)
         return item
     }
-    
+
     @discardableResult
     public func register<Type, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11>(
         file: String = #file,
@@ -264,7 +265,7 @@ extension DIRegistrator {
         self.addItem(item)
         return item
     }
-    
+
     @discardableResult
     public func register<Type, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12>(
         file: String = #file,
@@ -292,7 +293,7 @@ extension DIRegistrator {
         self.addItem(item)
         return item
     }
-    
+
     @discardableResult
     public func register<Type, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13>(
         file: String = #file,
@@ -351,7 +352,7 @@ extension DIRegistrator {
         self.addItem(item)
         return item
     }
-    
+
     @discardableResult
     public func register<Type, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15>(
         file: String = #file,

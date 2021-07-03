@@ -25,16 +25,16 @@ final class DIProviderTests: XCTestCase {
             let m14 = try res.resolve(m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13) as DITestModel14
             _ = try res.resolve(m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14) as DITestModel15
         }
-        
+
         try DI.load([part])
     }
-    
+
     /// Тест register на все доступное колчество аргументов
     func test2() throws {
         let part = self.makePart()
         part.res { res in
             let m0 = (try res.resolve() as () -> DITestModel0)()
-    
+
             let m1 = (try res.resolve() as (
                 DITestModel0
             ) -> DITestModel1)(m0)
@@ -119,7 +119,7 @@ final class DIProviderTests: XCTestCase {
                 DITestModel8,
                 DITestModel9
             ) -> DITestModel10)(m0, m1, m2, m3, m4, m5, m6, m7, m8, m9)
-            
+
             let m11 = (try res.resolve() as (
                 DITestModel0,
                 DITestModel1,
@@ -133,7 +133,7 @@ final class DIProviderTests: XCTestCase {
                 DITestModel9,
                 DITestModel10
             ) -> DITestModel11)(m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10)
-            
+
             let m12 = (try res.resolve() as (
                 DITestModel0,
                 DITestModel1,
@@ -164,7 +164,7 @@ final class DIProviderTests: XCTestCase {
                 DITestModel11,
                 DITestModel12
             ) -> DITestModel13)(m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12)
-            
+
             let m14 = (try res.resolve() as (
                 DITestModel0,
                 DITestModel1,
@@ -202,11 +202,11 @@ final class DIProviderTests: XCTestCase {
         }
         try DI.load([part])
     }
-    
+
     /// Тест register на все доступное колчество аргументов
     func test3() throws {
         let part = DITestPart()
-        
+
         part.reg { reg in
             try reg.register(DITestModel0.init)
             try reg.register(DITestModel1.init)
@@ -442,6 +442,6 @@ extension DIProviderTests {
     static var allTests = [
         ("test1", test1),
         ("test2", test2),
-        ("test3", test3)
+        ("test3", test3),
     ]
 }

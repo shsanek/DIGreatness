@@ -2,7 +2,7 @@ struct DIError: Error {
     let file: String
     let line: Int
     let description: String
-    
+
     static func customError(file: String = #file, line: Int = #line, _ description: String) -> Self {
         DIError(file: file, line: line, description: description)
     }

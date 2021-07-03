@@ -24,15 +24,15 @@ struct DITestD {
 struct DITestE {
     let b: DITestB
 
-    var a: DITestA? = nil
-    var c: ((_ a: DITestB) -> DITestC)? = nil
+    var a: DITestA?
+    var c: ((_ a: DITestB) -> DITestC)?
 }
 
 final class DIСycle1 {
     init(next: DIСycle2) {
         self.next = next
     }
-    
+
     let next: DIСycle2
 }
 
@@ -40,7 +40,7 @@ final class DIСycle2 {
     init(next: DIСycle3) {
         self.next = next
     }
-    
+
     let next: DIСycle3
 }
 
@@ -48,7 +48,7 @@ final class DIСycle3 {
     init(next: DIСycle1) {
         self.next = next
     }
-    
+
     let next: DIСycle1
 }
 

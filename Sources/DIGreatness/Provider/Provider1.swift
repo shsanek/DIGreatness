@@ -8,7 +8,7 @@ struct Provider1<Type, A1>: DIProvider {
     func addArgument<Arg>(_ argument: Arg.Type) throws -> DIProvider {
         return Provider2<Type, A1, Arg>()
     }
-    
+
     func make(with node: DINode) -> DINode {
         let handler: (A1) -> Type = { a1 in
             let obj = node.fetch([a1])

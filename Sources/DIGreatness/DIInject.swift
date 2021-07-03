@@ -7,7 +7,7 @@
             return value
         }
     }
-    
+
     private var value: Type?
     private let tag: Any.Type
     private let position: DICodePosition
@@ -16,7 +16,7 @@
         self.tag = tag
         self.position = DICodePosition(file: file, line: line)
     }
-    
+
     func resolve(_ resolver: DIResolver) throws {
         self.value = try resolver.resolve(file: self.position.file, line: self.position.line, tag: tag) as Type
     }

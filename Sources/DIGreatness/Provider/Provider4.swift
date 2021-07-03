@@ -8,7 +8,7 @@ struct Provider4<Type, A1, A2, A3, A4>: DIProvider {
     func addArgument<Arg>(_ argument: Arg.Type) throws -> DIProvider {
         return Provider5<Type, A1, A2, A3, A4, Arg>()
     }
-    
+
     func make(with node: DINode) -> DINode {
         let handler: (A1, A2, A3, A4) -> Type = { a1, a2, a3, a4 in
             let obj = node.fetch([a1, a2, a3, a4])
@@ -19,7 +19,7 @@ struct Provider4<Type, A1, A2, A3, A4>: DIProvider {
         }
         let bulder = DINodeBuilder(
             position: node.builder.position,
-            type: ((A1, A2, A3, A4)  -> Type).self, maker: { _ in
+            type: ((A1, A2, A3, A4) -> Type).self, maker: { _ in
                 handler
             }
         )

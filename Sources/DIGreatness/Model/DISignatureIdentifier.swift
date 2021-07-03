@@ -2,7 +2,7 @@ public struct DISignatureIdentifier {
     var type: Any.Type
     var inputs: [Any.Type] = []
     var tag: Any.Type = DIBaseTag.self
-    
+
     var name: String {
         return "\((type as? DIContainerType.Type)?.baseType ?? type)"
     }
@@ -12,7 +12,7 @@ public struct DISignatureIdentifier {
             tag == signature.tag &&
             checkInputs(inputs: signature.inputs)
     }
-    
+
     private func checkInputs(inputs: [Any.Type]) -> Bool {
         guard inputs.count == self.inputs.count else {
             return false
@@ -24,7 +24,7 @@ public struct DISignatureIdentifier {
         }
         return true
     }
-    
+
     private func checkAccept(type: Any.Type?, inputType: Any.Type?) -> Bool {
         if type == nil, inputType == nil {
             return true
@@ -44,7 +44,8 @@ extension DISignatureIdentifier: CustomDebugStringConvertible {
         let inputs = self.inputs.map { "\($0)" }.joined(separator: ", ")
         if tag == DIBaseTag.self {
             return "<Signature: [\(inputs)] -> (\(type))>"
-        } else {
+        }
+        else {
             return "<Signature: #\(tag)#[\(inputs)] -> (\(type))>"
         }
     }

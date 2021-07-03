@@ -1,28 +1,16 @@
 # Версия SwiftLint 0.38.2
 
-excluded:
-  - build
-  - Pods
-  - Carthage
-  - BuildStuff
-  - EdaSDK/EdaSDKTests
-  - FTCFeeSDK
-  - MockServer
-  - fastlane
-  - Utils/UtilsTests
-  - CountryList/CountryListTests
-  - Agents/AgentsTests
-
 disabled_rules:
   - large_tuple
   - opening_brace
   - todo
-  - vertical_parameter_alignment # выключено, так как swiftlint не умеет в табы
-  - unused_setter_value # выключено, так как не оценена целесообразность
+  - vertical_parameter_alignment
+  - unused_setter_value
   - type_body_length
   - file_length
   - implicit_getter
   - function_body_length
+  - identifier_name
 
 opt_in_rules:
   - anyobject_protocol
@@ -42,14 +30,12 @@ opt_in_rules:
   - last_where
   - legacy_random
   - let_var_whitespace
-  # - literal_expression_end_indentation # выключено, так как swiftlint не умеет в табы
   - lower_acl_than_parent
   - modifier_order
   - multiline_function_chains
   - multiline_literal_brackets
   - multiline_parameters
   - nimble_operator
-  # - no_extension_access_modifier # пока не пришли к решению, что так лучше
   - operator_usage_whitespace
   - override_in_extension
   - overridden_super_call
@@ -64,7 +50,6 @@ opt_in_rules:
   - unavailable_function
   - unneeded_parentheses_in_closure_argument
   - untyped_error_in_catch
-  # - vertical_parameter_alignment_on_call # выключено, так как swiftlint не умеет в табы
   - vertical_whitespace_closing_braces
   - yoda_condition
   - strict_fileprivate
@@ -75,16 +60,12 @@ analyzer_rules:
   - explicit_self
   - unused_declaration
 
-warning_threshold: 1
+warning_threshold: 1000
 
 indentation: tabs
 
 vertical_whitespace:
   max_empty_lines: 1
-
-identifier_name:
-  min_length: 2
-  max_length: 50
 
 type_name:
   max_length: 50

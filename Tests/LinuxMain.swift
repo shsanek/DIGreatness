@@ -2,7 +2,7 @@ import XCTest
 
 import DIGreatnessTests
 
-var tests = [XCTestCaseEntry]()
+private var tests = [XCTestCaseEntry]()
 tests += DIGreatnessTests.allTests()
 tests += DIProviderTests.allTests()
 XCTMain(tests)

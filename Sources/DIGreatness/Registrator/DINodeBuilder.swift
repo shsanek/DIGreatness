@@ -4,7 +4,7 @@ final class DINodeBuilder {
     var injectHandlers: [(_ object: inout Any, _ build: DIBuilderDependencyPool) throws -> Void] = []
     var provider: DIProvider
     var lifeTime: DINodeRegistratorLifeTime = .oneInBuild
-    
+
     let position: DICodePosition
 
     init<Type>(
@@ -17,7 +17,7 @@ final class DINodeBuilder {
         self.provider = Provider0<Type>()
         self.info = DIBuilderInformation(identifier: DISignatureIdentifier(type: type))
     }
-    
+
     func addInput<Type>(_ type: Type.Type) throws {
         if let container = type as? DIContainable.Type {
             info.dependencies.append(container.signature)

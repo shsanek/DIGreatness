@@ -9,7 +9,7 @@ public struct DIArgumentContainer<Type>: DIArgumentContainable {
     static var objectType: Any.Type {
         return Type.self
     }
-    
+
     let object: Type
 
     init(object: Any) {
@@ -18,7 +18,7 @@ public struct DIArgumentContainer<Type>: DIArgumentContainable {
         }
         self.object = obj
     }
-    
+
     static func updateProvider(_ provider: inout DIProvider) throws {
         provider = try provider.addArgument(Type.self)
     }

@@ -4,6 +4,3 @@ protocol DIProvider {
     func addArgument<Arg>(_ argument: Arg.Type) throws -> DIProvider
     func make(with node: DINode) -> DINode
 }
-
-
-

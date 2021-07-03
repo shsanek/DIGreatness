@@ -18,7 +18,7 @@ final class DIBuilderDependencyPool {
         }
         return getDependency(arguments: arguments, with: DISignatureDependency(identifier: .init(type: Type.self)))
     }
-    
+
     private func getArgument<Type>(_ argumentContainer: DIArgumentContainable.Type ) -> Type {
         let object = self.arguments.removeFirst()
         guard let result = argumentContainer.init(object: object) as? Type else {
@@ -26,16 +26,17 @@ final class DIBuilderDependencyPool {
         }
         return result
     }
-    
+
     private func getDependency<Type>(arguments: [Any], with signature: DISignatureDependency, map: (Any) -> Any = { $0 }) -> Type {
         let dependencies = node.dependencies
             .filter { $0.identifier.checkAccept(signature: signature.identifier) }
             .map { $0.makeIfNeeed(storage: storage, arguments) }
-        
+
         var object: Any
         if signature.pool {
             object = map(dependencies)
-        } else {
+        }
+        else {
             if dependencies.count == 0 {
                 fatalError("[DI] Node with '\(signature)' not found")
             }
@@ -46,5 +47,4 @@ final class DIBuilderDependencyPool {
         }
         return result
     }
-
 }

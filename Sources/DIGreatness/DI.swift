@@ -10,7 +10,8 @@ public enum DI {
             catch {
                 if let container = error as? DIErrorsContainer {
                     errors.append(contentsOf: container.errors)
-                } else {
+                }
+                else {
                     errors.append(error)
                 }
             }
@@ -25,7 +26,8 @@ public enum DI {
                 catch {
                     if let container = error as? DIErrorsContainer {
                         errors.append(contentsOf: container.errors)
-                    } else {
+                    }
+                    else {
                         errors.append(error)
                     }
                 }

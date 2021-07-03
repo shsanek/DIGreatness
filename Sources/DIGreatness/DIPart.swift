@@ -11,7 +11,7 @@ public extension DIPart {
     }
 
     func autoInjection(_ resolver: DIResolver) throws {
-        try Mirror(reflecting: self).children.forEach { (child) in
+        try Mirror(reflecting: self).children.forEach { child in
             try (child.value as? DIInjectable)?.resolve(resolver)
         }
     }

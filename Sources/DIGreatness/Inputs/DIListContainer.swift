@@ -1,11 +1,11 @@
-public struct DIListContainer<Tag,Type>: DIContainable {
+public struct DIListContainer<Tag, Type>: DIContainable {
     static var signature: DISignatureDependency {
         let signature = DISignatureIdentifier(type: Type.self, tag: Tag.self)
         return DISignatureDependency(identifier: signature, pool: true)
     }
-    
+
     let objects: [Type]
-    
+
     init(object: Any) {
         guard let array = object as? [Any] else {
             fatalError("[DI]Incorect argument type '\(object)' is not 'Array'")

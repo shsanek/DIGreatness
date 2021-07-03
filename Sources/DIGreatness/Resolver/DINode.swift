@@ -8,7 +8,7 @@ public final class DINode {
     lazy var name: String = {
         return identifier.name
     }()
-    
+
     var identifier: DISignatureIdentifier {
         builder.info.identifier
     }
@@ -16,12 +16,12 @@ public final class DINode {
     init(_ builder: DINodeBuilder) {
         self.builder = builder
     }
-    
+
     func fetch(_ arguments: [Any]) -> Any {
         let storage = DIBuilderDependencyStorage()
         return make(storage: storage, arguments)
     }
-    
+
     func makeIfNeeed(storage: DIBuilderDependencyStorage, _ arguments: [Any]) -> Any {
         switch builder.lifeTime {
         case .newEveryTime:
@@ -34,7 +34,7 @@ public final class DINode {
             return result
         }
     }
-    
+
     func make(storage: DIBuilderDependencyStorage, _ arguments: [Any]) -> Any {
         let container = DIBuilderDependencyPool(node: self, arguments: arguments, storage: storage)
         do {

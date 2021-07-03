@@ -5,13 +5,13 @@ final class DITestPart: DIPart {
     var resolveHandler: ((DIResolver) throws -> Void)?
 
     init() { }
-    
+
     @discardableResult
     func reg(_ handler: @escaping (DIRegistrator) throws -> Void) -> Self {
         registrationHandler = handler
         return self
     }
-    
+
     @discardableResult
     func res(_ handler: @escaping (DIResolver) throws -> Void) -> Self {
         resolveHandler = handler

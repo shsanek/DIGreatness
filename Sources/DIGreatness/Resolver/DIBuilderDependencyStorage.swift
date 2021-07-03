@@ -1,6 +1,6 @@
 final class DIBuilderDependencyStorage {
     private var objects: [String: [(signature: DISignatureIdentifier, value: Any)]] = [:]
-    
+
     func fetchObject(node: DINode, arguments: [Any]) -> Any {
         if objects[node.name] == nil {
             objects[node.name] = []

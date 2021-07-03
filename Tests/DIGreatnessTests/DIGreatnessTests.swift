@@ -2,7 +2,7 @@ import XCTest
 import DIGreatness
 
 final class DIGreatnessTests: XCTestCase {
-    
+
     /// Тест на resolve одного элемента
     func test1() throws {
         let part = DITestPart()
@@ -14,7 +14,7 @@ final class DIGreatnessTests: XCTestCase {
             }
         try DI.load([part])
     }
-    
+
     /// Тест на resolve одного элемента при касте его типа optional
     func test2() throws {
         let part = DITestPart()
@@ -26,7 +26,7 @@ final class DIGreatnessTests: XCTestCase {
             }
         try DI.load([part])
     }
-    
+
     /// Тест на resolve кложура для создания элемента
     func test3() throws {
         let part = DITestPart()
@@ -39,7 +39,7 @@ final class DIGreatnessTests: XCTestCase {
             }
         try DI.load([part])
     }
-    
+
     /// Тест на resolve элементов  которые связаны между собой
     func test4() throws {
         let part = DITestPart()
@@ -54,7 +54,7 @@ final class DIGreatnessTests: XCTestCase {
             }
         try DI.load([part])
     }
-    
+
     /// Тест на resolve элемента с внешними элементами
     func test5() throws {
         let part = DITestPart()
@@ -68,7 +68,7 @@ final class DIGreatnessTests: XCTestCase {
             }
         try DI.load([part])
     }
-    
+
     /// Тест на resolve элемента с несколькими харегистрированными сигнатурами
     func test6() throws {
         let part = DITestPart()
@@ -97,14 +97,14 @@ final class DIGreatnessTests: XCTestCase {
             .res { resolver in
                 let c1 = try resolver.resolve() as DITestC
                 XCTAssert(c1.a === c1.b.a)
-                
+
                 let c2 = try resolver.resolve() as DITestC
                 XCTAssert(c2.a === c2.b.a)
                 XCTAssert(c1.a !== c2.b.a)
             }
         try DI.load([part])
     }
-    
+
     /// Тест .newEveryTime времени жизни элемента
     func test8() throws {
         let part = DITestPart()
@@ -116,14 +116,14 @@ final class DIGreatnessTests: XCTestCase {
             .res { resolver in
                 let c1 = try resolver.resolve() as DITestC
                 XCTAssert(c1.a !== c1.b.a)
-                
+
                 let c2 = try resolver.resolve() as DITestC
                 XCTAssert(c2.a !== c2.b.a)
                 XCTAssert(c1.a !== c2.b.a)
             }
         try DI.load([part])
     }
-    
+
     /// Тест .singolton времени жизни элемента
     func test9() throws {
         let part = DITestPart()
@@ -135,14 +135,14 @@ final class DIGreatnessTests: XCTestCase {
             .res { resolver in
                 let c1 = try resolver.resolve() as DITestC
                 XCTAssert(c1.a === c1.b.a)
-                
+
                 let c2 = try resolver.resolve() as DITestC
                 XCTAssert(c2.a === c2.b.a)
                 XCTAssert(c1.a === c2.b.a)
             }
         try DI.load([part])
     }
-    
+
     /// Тест resolver с смешеными связями и внешними аргументами
     func test10() throws {
         let part = DITestPart()
@@ -160,7 +160,7 @@ final class DIGreatnessTests: XCTestCase {
             }
         try DI.load([part])
     }
-    
+
     /// Тест resolver с тэгам
     func test11() throws {
         let part = DITestPart()
@@ -170,17 +170,17 @@ final class DIGreatnessTests: XCTestCase {
                     .map { $0 as DITestProtocol }
                     .lifeTime(.singolton(.lazy))
                     .tag(DITestTag.self)
-                
+
                 try registrator.register(DITestB.init)
                 try registrator.register { DITestC(a: $0, b: diArg($1)) }
-                try registrator.register { DITestD.init(a: diTag(tag: DITestTag.self, $0), b: $1, c: $2) }
+                try registrator.register { DITestD(a: diTag(tag: DITestTag.self, $0), b: $1, c: $2) }
             }
             .res { resolver in
                 _ = try resolver.resolve() as DITestD
             }
         try DI.load([part])
     }
-    
+
     /// Тест на  регстрацию нескольких Part
     func test12() throws {
         let part1 = DITestPart()
@@ -190,7 +190,7 @@ final class DIGreatnessTests: XCTestCase {
                     .tag(DITestTag.self)
                     .map { $0 as DITestProtocol }
                     .lifeTime(.singolton(.lazy))
-                
+
                 try registrator.register(DITestB.init)
             }
             .res { resolver in
@@ -199,14 +199,14 @@ final class DIGreatnessTests: XCTestCase {
         let part2 = DITestPart()
             .reg { registrator in
                 try registrator.register { DITestC(a: $0, b: diArg($1)) }
-                try registrator.register { DITestD.init(a: diTag(tag: DITestTag.self, $0), b: $1, c: $2) }
+                try registrator.register { DITestD(a: diTag(tag: DITestTag.self, $0), b: $1, c: $2) }
             }
             .res { resolver in
                 _ = try resolver.resolve(tag: DITestTag.self) as DITestProtocol
             }
         try DI.load([part1, part2])
     }
-    
+
     /// Проверка регстрации нескольких Part
     func test13() throws {
         let part = DITestInjectPart()
@@ -216,7 +216,7 @@ final class DIGreatnessTests: XCTestCase {
         XCTAssert(type(of: part.a) == DITestA.self)
         XCTAssert(type(of: part.b) == DITestB.self)
     }
-    
+
     /// Тест всех элементов по заданой сигнатуре
     func test14() throws {
         let part = DITestPart()
@@ -225,10 +225,10 @@ final class DIGreatnessTests: XCTestCase {
 
                 try registrator.register { $0 as DITestA }
                     .map { $0 as DITestProtocol }
-    
+
                 try registrator.register(DITestB.init)
                     .map { $0 as DITestProtocol }
-                
+
                 try registrator.register {
                     diList($0) as [DITestProtocol]
                 }
@@ -239,7 +239,7 @@ final class DIGreatnessTests: XCTestCase {
             }
         try DI.load([part])
     }
-    
+
     /// Тест inject
     func test15() throws {
         let part = DITestPart()
@@ -260,7 +260,7 @@ final class DIGreatnessTests: XCTestCase {
             }
         try DI.load([part])
     }
-    
+
     /// Тест проверки на циклы
     func test16() throws {
         let part = DITestPart()
@@ -280,7 +280,7 @@ final class DIGreatnessTests: XCTestCase {
         }
         XCTFail("no cyclic dependency found")
     }
-    
+
     /// Тест проверки на оцутсвие нужной сигнатуры
     func test17() throws {
         let part = DITestPart()
@@ -299,7 +299,6 @@ final class DIGreatnessTests: XCTestCase {
         }
         XCTFail("no matching signatures found")
     }
-    
 }
 
 extension DIGreatnessTests {
@@ -320,6 +319,6 @@ extension DIGreatnessTests {
         ("test14", test14),
         ("test15", test15),
         ("test16", test16),
-        ("test17", test17)
+        ("test17", test17),
     ]
 }
