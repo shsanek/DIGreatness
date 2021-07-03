@@ -1,4 +1,5 @@
-final class DINodeBuilder {
+final class DINodeBuilder
+{
     var info: DIBuilderInformation
     var maker: (_ build: DIBuilderDependencyPool) throws -> Any
     var injectHandlers: [(_ object: inout Any, _ build: DIBuilderDependencyPool) throws -> Void] = []
@@ -41,7 +42,8 @@ final class DINodeBuilder {
     }
 }
 
-extension DINodeBuilder: CustomDebugStringConvertible {
+extension DINodeBuilder: CustomDebugStringConvertible
+{
     var debugDescription: String {
         return "<Node \(self.info.identifier) \(position)>"
     }

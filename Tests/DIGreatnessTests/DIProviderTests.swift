@@ -1,7 +1,9 @@
+
 import XCTest
 import DIGreatness
 
-final class DIProviderTests: XCTestCase {
+final class DIProviderTests: XCTestCase
+{
 
     /// Тест register на все доступное колчество аргументов
     func test1() throws {
@@ -248,7 +250,8 @@ final class DIProviderTests: XCTestCase {
     }
 }
 
-private extension DIProviderTests{
+private extension DIProviderTests
+{
     func makePart() -> DITestPart {
         let part = DITestPart()
         part.reg { reg in
@@ -438,7 +441,8 @@ private extension DIProviderTests{
     }
 }
 
-extension DIProviderTests {
+extension DIProviderTests
+{
     static var allTests = [
         ("test1", test1),
         ("test2", test2),

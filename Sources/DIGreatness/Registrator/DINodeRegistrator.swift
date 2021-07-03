@@ -1,4 +1,5 @@
-public struct DINodeRegistrator<Type> {
+public struct DINodeRegistrator<Type>
+{
     let builder: DINodeBuilder
 
     init(
@@ -16,7 +17,8 @@ public struct DINodeRegistrator<Type> {
     }
 }
 
-extension DINodeRegistrator {
+extension DINodeRegistrator
+{
     @discardableResult
     public func map<NewType>(_ map: @escaping (Type) -> NewType) -> DINodeRegistrator<NewType> {
         self.builder.injectHandlers.append { obj, _ in

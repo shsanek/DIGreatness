@@ -1,6 +1,7 @@
 import DIGreatness
 
-final class DITestPart: DIPart {
+final class DITestPart: DIPart
+{
     var registrationHandler: ((DIRegistrator) throws -> Void)?
     var resolveHandler: ((DIResolver) throws -> Void)?
 

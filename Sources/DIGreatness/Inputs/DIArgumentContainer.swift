@@ -1,11 +1,13 @@
-protocol DIArgumentContainable {
+protocol DIArgumentContainable
+{
     static var objectType: Any.Type { get }
     static func updateProvider(_ provider: inout DIProvider) throws
 
     init(object: Any)
 }
 
-public struct DIArgumentContainer<Type>: DIArgumentContainable {
+public struct DIArgumentContainer<Type>: DIArgumentContainable
+{
     static var objectType: Any.Type {
         return Type.self
     }
@@ -24,6 +26,7 @@ public struct DIArgumentContainer<Type>: DIArgumentContainable {
     }
 }
 
-public func diArg<Type>(_ container: DIArgumentContainer<Type>) -> Type {
+public func diArg<Type>(_ container: DIArgumentContainer<Type>) -> Type
+{
     return container.object
 }

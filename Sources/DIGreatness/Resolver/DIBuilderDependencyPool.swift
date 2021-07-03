@@ -1,4 +1,5 @@
-final class DIBuilderDependencyPool {
+final class DIBuilderDependencyPool
+{
     let node: DINode
     let storage: DIBuilderDependencyStorage
     var arguments: [Any]

@@ -140,12 +140,6 @@ custom_rules:
       - typeidentifier
     regex: '(?:init|func)[\w\s]+\s\('
 
-  tabs_for_indentation:
-    include: "*.swift"
-    name: "Tabs for indentation rule"
-    message: "Use tabs instead of spaces for indentation"
-    regex: '.*(\n[ ]{4,})'
-
   prohibited_cyrillic:
     include: "*.swift"
     name: "Prohibited cyrillic rule"

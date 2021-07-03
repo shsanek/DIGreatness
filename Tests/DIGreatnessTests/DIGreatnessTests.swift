@@ -1,7 +1,8 @@
 import XCTest
 import DIGreatness
 
-final class DIGreatnessTests: XCTestCase {
+final class DIGreatnessTests: XCTestCase
+{
 
     /// Тест на resolve одного элемента
     func test1() throws {
@@ -265,9 +266,9 @@ final class DIGreatnessTests: XCTestCase {
     func test16() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIСycle1.init)
-                try registrator.register(DIСycle2.init)
-                try registrator.register(DIСycle3.init)
+                try registrator.register(DICycle1.init)
+                try registrator.register(DICycle2.init)
+                try registrator.register(DICycle3.init)
             }
             .res { _ in
             }
@@ -301,7 +302,8 @@ final class DIGreatnessTests: XCTestCase {
     }
 }
 
-extension DIGreatnessTests {
+extension DIGreatnessTests
+{
     static var allTests = [
         ("test1", test1),
         ("test2", test2),

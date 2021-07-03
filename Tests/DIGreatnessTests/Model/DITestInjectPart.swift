@@ -1,6 +1,7 @@
 import DIGreatness
 
-final class DITestInjectPart: DIPart {
+final class DITestInjectPart: DIPart
+{
      /// Внешнии завсимости которые будут доступны после сборки
     @DIInject(tag: DITestTag.self) var b: DITestProtocol
     @DIInject var a: DITestProtocol

@@ -1,1 +1,3 @@
-public enum DIBaseTag { }
+public enum DIBaseTag
+{
+}

@@ -1,4 +1,5 @@
-public final class DIResolver {
+public final class DIResolver
+{
     private var nodes: [String: [DINode]] = [:]
 
     init(registrator: DIRegistrator) throws {
@@ -7,7 +8,8 @@ public final class DIResolver {
     }
 }
 
-private extension DIResolver {
+private extension DIResolver
+{
     func createNodes(registrator: DIRegistrator) throws {
         registrator.builders.forEach { builder in
             let node = DINode(builder)
@@ -116,7 +118,8 @@ private extension DIResolver {
     }
 }
 
-public extension DIResolver {
+public extension DIResolver
+{
     func resolve<Type>(file: String = #file, line: Int = #line, tag: Any.Type = DIBaseTag.self, _ arguments: Any...) throws -> Type {
         let position = DICodePosition(file: file, line: line)
         return try resolve(tag: tag, arguments: arguments, position: position)

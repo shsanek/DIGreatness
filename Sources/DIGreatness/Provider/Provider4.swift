@@ -1,4 +1,5 @@
-struct Provider4<Type, A1, A2, A3, A4>: DIProvider {
+struct Provider4<Type, A1, A2, A3, A4>: DIProvider
+{
     var inputs: [Any.Type] { [A1.self, A2.self, A3.self, A4.self] }
 
     func returnType<Result>(_ result: Result.Type) -> DIProvider {

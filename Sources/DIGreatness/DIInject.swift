@@ -1,4 +1,5 @@
-@propertyWrapper public final class DIInject<Type>: DIInjectable {
+@propertyWrapper public final class DIInject<Type>: DIInjectable
+{
     public var wrappedValue: Type {
         get {
             guard let value = self.value else {
@@ -22,6 +23,7 @@
     }
 }
 
-protocol DIInjectable {
+protocol DIInjectable
+{
     func resolve(_ resolver: DIResolver) throws
 }

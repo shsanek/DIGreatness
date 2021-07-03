@@ -1,4 +1,5 @@
-struct DIError: Error {
+struct DIError: Error
+{
     let file: String
     let line: Int
     let description: String
@@ -8,30 +9,35 @@ struct DIError: Error {
     }
 }
 
-extension DIError: CustomDebugStringConvertible {
+extension DIError: CustomDebugStringConvertible
+{
     var debugDescription: String {
         return "\(description)"
     }
 }
 
-public struct DIErrorsContainer: Error {
+public struct DIErrorsContainer: Error
+{
     public let errors: [Error]
 }
 
-extension DIErrorsContainer: CustomDebugStringConvertible {
+extension DIErrorsContainer: CustomDebugStringConvertible
+{
     public var debugDescription: String {
         return errors.map { "\($0)" }.joined(separator: "\n\n")
     }
 }
 
-struct DICodePosition {
+struct DICodePosition
+{
     let file: String
     let line: Int
 }
 
 import Foundation
 
-extension DICodePosition: CustomDebugStringConvertible {
+extension DICodePosition: CustomDebugStringConvertible
+{
     var debugDescription: String {
         let fileName = URL(fileURLWithPath: file).lastPathComponent
         return "<\(fileName): \(line)>"

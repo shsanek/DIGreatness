@@ -1,4 +1,5 @@
-public struct DISignatureIdentifier {
+public struct DISignatureIdentifier
+{
     var type: Any.Type
     var inputs: [Any.Type] = []
     var tag: Any.Type = DIBaseTag.self
@@ -39,7 +40,8 @@ public struct DISignatureIdentifier {
     }
 }
 
-extension DISignatureIdentifier: CustomDebugStringConvertible {
+extension DISignatureIdentifier: CustomDebugStringConvertible
+{
     public var debugDescription: String {
         let inputs = self.inputs.map { "\($0)" }.joined(separator: ", ")
         if tag == DIBaseTag.self {

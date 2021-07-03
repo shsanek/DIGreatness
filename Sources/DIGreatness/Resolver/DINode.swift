@@ -1,4 +1,5 @@
-public final class DINode {
+public final class DINode
+{
     let builder: DINodeBuilder
 
     var singleton: Any?

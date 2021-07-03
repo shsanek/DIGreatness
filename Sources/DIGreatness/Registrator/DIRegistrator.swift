@@ -1,4 +1,5 @@
-public final class DIRegistrator {
+public final class DIRegistrator
+{
     var builders = [DINodeBuilder]()
 
     func addItem<Type>(_ item: DINodeRegistrator<Type>) {
@@ -7,7 +8,8 @@ public final class DIRegistrator {
 }
 
 // swiftlint:disable line_length
-extension DIRegistrator {
+extension DIRegistrator
+{
     @discardableResult
     public func register<Type>(
         file: String = #file,

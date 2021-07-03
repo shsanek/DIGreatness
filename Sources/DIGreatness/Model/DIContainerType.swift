@@ -1,8 +1,10 @@
-protocol DIContainerType {
+protocol DIContainerType
+{
     static var baseType: Any.Type { get }
 }
 
-extension Optional: DIContainerType {
+extension Optional: DIContainerType
+{
     static var baseType: Any.Type {
         Wrapped.self
     }

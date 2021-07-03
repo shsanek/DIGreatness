@@ -1,11 +1,13 @@
-public protocol DIPart {
+public protocol DIPart
+{
     init()
     var subpars: [DIPart] { get }
     func registration(_ registrator: DIRegistrator) throws
     func resolve(_ resolver: DIResolver) throws
 }
 
-public extension DIPart {
+public extension DIPart
+{
     var subpars: [DIPart] {
         []
     }
@@ -21,7 +23,8 @@ public extension DIPart {
     }
 }
 
-internal extension DIPart {
+internal extension DIPart
+{
     var allParts: [DIPart] {
         return self.subpars.flatMap { $0.allParts } + [self]
     }
