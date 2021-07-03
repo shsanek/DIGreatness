@@ -7,10 +7,10 @@ final class DIGreatnessTests: XCTestCase {
     func test1() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init)
+                try registrator.register(DITestA.init)
             }
             .res { resolver in
-                _ = try resolver.resolve() as DIA
+                _ = try resolver.resolve() as DITestA
             }
         try DI.load([part])
     }
@@ -19,10 +19,10 @@ final class DIGreatnessTests: XCTestCase {
     func test2() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init)
+                try registrator.register(DITestA.init)
             }
             .res { resolver in
-                _ = try resolver.resolve() as DIA?
+                _ = try resolver.resolve() as DITestA?
             }
         try DI.load([part])
     }
@@ -31,10 +31,10 @@ final class DIGreatnessTests: XCTestCase {
     func test3() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init)
+                try registrator.register(DITestA.init)
             }
             .res { resolver in
-                let maker = try resolver.resolve() as () -> DIA
+                let maker = try resolver.resolve() as () -> DITestA
                 _ = maker()
             }
         try DI.load([part])
@@ -44,12 +44,12 @@ final class DIGreatnessTests: XCTestCase {
     func test4() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init)
-                try registrator.register(DIB.init)
+                try registrator.register(DITestA.init)
+                try registrator.register(DITestB.init)
             }
             .res { resolver in
-                _ = try resolver.resolve() as DIB
-                let maker = try resolver.resolve() as () -> DIB
+                _ = try resolver.resolve() as DITestB
+                let maker = try resolver.resolve() as () -> DITestB
                 _ = maker()
             }
         try DI.load([part])
@@ -59,12 +59,12 @@ final class DIGreatnessTests: XCTestCase {
     func test5() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register { DIB(a: diArg($0)) }
+                try registrator.register { DITestB(a: diArg($0)) }
             }
             .res { resolver in
-                _ = try resolver.resolve(DIA()) as DIB
-                let maker = try resolver.resolve() as (DIA) -> DIB
-                _ = maker(DIA())
+                _ = try resolver.resolve(DITestA()) as DITestB
+                let maker = try resolver.resolve() as (DITestA) -> DITestB
+                _ = maker(DITestA())
             }
         try DI.load([part])
     }
@@ -73,14 +73,14 @@ final class DIGreatnessTests: XCTestCase {
     func test6() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init)
-                try registrator.register(DIB.init)
-                try registrator.register { DIB(a: diArg($0)) }
+                try registrator.register(DITestA.init)
+                try registrator.register(DITestB.init)
+                try registrator.register { DITestB(a: diArg($0)) }
             }
             .res { resolver in
-                let maker1 = try resolver.resolve() as (DIA) -> DIB
-                _ = maker1(DIA())
-                let maker2 = try resolver.resolve() as () -> DIB
+                let maker1 = try resolver.resolve() as (DITestA) -> DITestB
+                _ = maker1(DITestA())
+                let maker2 = try resolver.resolve() as () -> DITestB
                 _ = maker2()
             }
         try DI.load([part])
@@ -90,15 +90,15 @@ final class DIGreatnessTests: XCTestCase {
     func test7() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init)
-                try registrator.register(DIB.init)
-                try registrator.register(DIC.init)
+                try registrator.register(DITestA.init)
+                try registrator.register(DITestB.init)
+                try registrator.register(DITestC.init)
             }
             .res { resolver in
-                let c1 = try resolver.resolve() as DIC
+                let c1 = try resolver.resolve() as DITestC
                 XCTAssert(c1.a === c1.b.a)
                 
-                let c2 = try resolver.resolve() as DIC
+                let c2 = try resolver.resolve() as DITestC
                 XCTAssert(c2.a === c2.b.a)
                 XCTAssert(c1.a !== c2.b.a)
             }
@@ -109,15 +109,15 @@ final class DIGreatnessTests: XCTestCase {
     func test8() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init).lifeTime(.newEveryTime)
-                try registrator.register(DIB.init)
-                try registrator.register(DIC.init)
+                try registrator.register(DITestA.init).lifeTime(.newEveryTime)
+                try registrator.register(DITestB.init)
+                try registrator.register(DITestC.init)
             }
             .res { resolver in
-                let c1 = try resolver.resolve() as DIC
+                let c1 = try resolver.resolve() as DITestC
                 XCTAssert(c1.a !== c1.b.a)
                 
-                let c2 = try resolver.resolve() as DIC
+                let c2 = try resolver.resolve() as DITestC
                 XCTAssert(c2.a !== c2.b.a)
                 XCTAssert(c1.a !== c2.b.a)
             }
@@ -128,15 +128,15 @@ final class DIGreatnessTests: XCTestCase {
     func test9() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init).lifeTime(.singolton(.lazy))
-                try registrator.register(DIB.init)
-                try registrator.register(DIC.init)
+                try registrator.register(DITestA.init).lifeTime(.singolton(.lazy))
+                try registrator.register(DITestB.init)
+                try registrator.register(DITestC.init)
             }
             .res { resolver in
-                let c1 = try resolver.resolve() as DIC
+                let c1 = try resolver.resolve() as DITestC
                 XCTAssert(c1.a === c1.b.a)
                 
-                let c2 = try resolver.resolve() as DIC
+                let c2 = try resolver.resolve() as DITestC
                 XCTAssert(c2.a === c2.b.a)
                 XCTAssert(c1.a === c2.b.a)
             }
@@ -147,15 +147,15 @@ final class DIGreatnessTests: XCTestCase {
     func test10() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init)
-                try registrator.register { $0 as DIA }
-                    .map { $0 as DIProtocol }
-                try registrator.register(DIB.init)
-                try registrator.register { DIC(a: $0, b: diArg($1)) }
-                try registrator.register(DID.init)
+                try registrator.register(DITestA.init)
+                try registrator.register { $0 as DITestA }
+                    .map { $0 as DITestProtocol }
+                try registrator.register(DITestB.init)
+                try registrator.register { DITestC(a: $0, b: diArg($1)) }
+                try registrator.register(DITestD.init)
             }
             .res { resolver in
-                let d = try resolver.resolve() as DID
+                let d = try resolver.resolve() as DITestD
                 _ = d.c(d.b())
             }
         try DI.load([part])
@@ -165,18 +165,18 @@ final class DIGreatnessTests: XCTestCase {
     func test11() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init)
-                try registrator.register { $0 as DIA }
-                    .map { $0 as DIProtocol }
+                try registrator.register(DITestA.init)
+                try registrator.register { $0 as DITestA }
+                    .map { $0 as DITestProtocol }
                     .lifeTime(.singolton(.lazy))
                     .tag(DITestTag.self)
                 
-                try registrator.register(DIB.init)
-                try registrator.register { DIC(a: $0, b: diArg($1)) }
-                try registrator.register { DID.init(a: diTag(tag: DITestTag.self, $0), b: $1, c: $2) }
+                try registrator.register(DITestB.init)
+                try registrator.register { DITestC(a: $0, b: diArg($1)) }
+                try registrator.register { DITestD.init(a: diTag(tag: DITestTag.self, $0), b: $1, c: $2) }
             }
             .res { resolver in
-                _ = try resolver.resolve() as DID
+                _ = try resolver.resolve() as DITestD
             }
         try DI.load([part])
     }
@@ -185,24 +185,24 @@ final class DIGreatnessTests: XCTestCase {
     func test12() throws {
         let part1 = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init)
-                try registrator.register { $0 as DIA }
+                try registrator.register(DITestA.init)
+                try registrator.register { $0 as DITestA }
                     .tag(DITestTag.self)
-                    .map { $0 as DIProtocol }
+                    .map { $0 as DITestProtocol }
                     .lifeTime(.singolton(.lazy))
                 
-                try registrator.register(DIB.init)
+                try registrator.register(DITestB.init)
             }
             .res { resolver in
-                _ = try resolver.resolve() as DID
+                _ = try resolver.resolve() as DITestD
             }
         let part2 = DITestPart()
             .reg { registrator in
-                try registrator.register { DIC(a: $0, b: diArg($1)) }
-                try registrator.register { DID.init(a: diTag(tag: DITestTag.self, $0), b: $1, c: $2) }
+                try registrator.register { DITestC(a: $0, b: diArg($1)) }
+                try registrator.register { DITestD.init(a: diTag(tag: DITestTag.self, $0), b: $1, c: $2) }
             }
             .res { resolver in
-                _ = try resolver.resolve(tag: DITestTag.self) as DIProtocol
+                _ = try resolver.resolve(tag: DITestTag.self) as DITestProtocol
             }
         try DI.load([part1, part2])
     }
@@ -213,28 +213,28 @@ final class DIGreatnessTests: XCTestCase {
         try DI.load([part])
         let b = part.bMaker()
         _ = part.cMaker(b)
-        XCTAssert(type(of: part.a) == DIA.self)
-        XCTAssert(type(of: part.b) == DIB.self)
+        XCTAssert(type(of: part.a) == DITestA.self)
+        XCTAssert(type(of: part.b) == DITestB.self)
     }
     
     /// Тест всех элементов по заданой сигнатуре
     func test14() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init)
+                try registrator.register(DITestA.init)
 
-                try registrator.register { $0 as DIA }
-                    .map { $0 as DIProtocol }
+                try registrator.register { $0 as DITestA }
+                    .map { $0 as DITestProtocol }
     
-                try registrator.register(DIB.init)
-                    .map { $0 as DIProtocol }
+                try registrator.register(DITestB.init)
+                    .map { $0 as DITestProtocol }
                 
                 try registrator.register {
-                    diList($0) as [DIProtocol]
+                    diList($0) as [DITestProtocol]
                 }
             }
             .res { resolver in
-                let protocols = try resolver.resolve() as [DIProtocol]
+                let protocols = try resolver.resolve() as [DITestProtocol]
                 XCTAssert(protocols.count == 2)
             }
         try DI.load([part])
@@ -244,17 +244,17 @@ final class DIGreatnessTests: XCTestCase {
     func test15() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init)
-                try registrator.register { $0 as DIA }
-                    .map { $0 as DIProtocol }
-                try registrator.register(DIB.init)
-                try registrator.register { DIC(a: $0, b: diArg($1)) }
-                try registrator.register(DIE.init)
+                try registrator.register(DITestA.init)
+                try registrator.register { $0 as DITestA }
+                    .map { $0 as DITestProtocol }
+                try registrator.register(DITestB.init)
+                try registrator.register { DITestC(a: $0, b: diArg($1)) }
+                try registrator.register(DITestE.init)
                     .inject(\.a)
                     .inject(\.c)
             }
             .res { resolver in
-                let e = try resolver.resolve() as DIE
+                let e = try resolver.resolve() as DITestE
                 XCTAssert(e.a != nil)
                 XCTAssert(e.c?(e.b) != nil)
             }
@@ -285,8 +285,8 @@ final class DIGreatnessTests: XCTestCase {
     func test17() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DIA.init)
-                try registrator.register(DIC.init)
+                try registrator.register(DITestA.init)
+                try registrator.register(DITestC.init)
             }
             .res { _ in
             }

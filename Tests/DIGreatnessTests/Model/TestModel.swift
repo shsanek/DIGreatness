@@ -1,31 +1,31 @@
 enum DITestTag { }
 
-protocol DIProtocol {
+protocol DITestProtocol {
 }
 
-class DIA: DIProtocol {
+class DITestA: DITestProtocol {
 }
 
-struct DIB: DIProtocol {
-    let a: DIA
+struct DITestB: DITestProtocol {
+    let a: DITestA
 }
 
-struct DIC {
-    let a: DIA
-    let b: DIB
+struct DITestC {
+    let a: DITestA
+    let b: DITestB
 }
 
-struct DID {
-    let a: DIProtocol
-    let b: () -> DIB
-    let c: (_ a: DIB) -> DIC
+struct DITestD {
+    let a: DITestProtocol
+    let b: () -> DITestB
+    let c: (_ a: DITestB) -> DITestC
 }
 
-struct DIE {
-    let b: DIB
+struct DITestE {
+    let b: DITestB
 
-    var a: DIA? = nil
-    var c: ((_ a: DIB) -> DIC)? = nil
+    var a: DITestA? = nil
+    var c: ((_ a: DITestB) -> DITestC)? = nil
 }
 
 final class DIСycle1 {
