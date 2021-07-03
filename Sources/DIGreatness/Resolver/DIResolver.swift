@@ -77,7 +77,7 @@ private extension DIResolver
         }
         node.dependencies = dependencies
         node.state = .validated
-        if case .singolton(let type) = node.builder.lifeTime, type == .preRun {
+        if node.builder.lifeTime == .perRun {
             _ = node.fetch([])
         }
     }

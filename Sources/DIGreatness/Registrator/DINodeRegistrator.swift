@@ -54,14 +54,9 @@ extension DINodeRegistrator
     }
 
     @discardableResult
-    public func lifeTime(_ lifeTime: DINodeRegistratorLifeTime) throws -> Self {
+    public func lifeTime(_ lifeTime: DILifeTime) throws -> Self {
         if builder.info.identifier.inputs.count > 0 {
-            if case .oneInBuild = lifeTime {
-                throw DIError.customError(
-                    "For \(self.builder) it is impossible to set the state because there are external arguments"
-                )
-            }
-            if case .singolton(let type) = lifeTime, type == .preRun {
+            if lifeTime != .prototype {
                 throw DIError.customError(
                     "For \(self.builder) it is impossible to set the state because there are external arguments"
                 )

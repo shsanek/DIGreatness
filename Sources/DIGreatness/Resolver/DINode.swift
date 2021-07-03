@@ -25,11 +25,11 @@ public final class DINode
 
     func makeIfNeeed(storage: DIBuilderDependencyStorage, _ arguments: [Any]) -> Any {
         switch builder.lifeTime {
-        case .newEveryTime:
+        case .prototype:
             return make(storage: storage, arguments)
-        case .oneInBuild:
+        case .objectGraph:
             return storage.fetchObject(node: self, arguments: arguments)
-        case .singolton:
+        case .single, .perRun:
             let result = singleton ?? make(storage: storage, arguments)
             singleton = result
             return result

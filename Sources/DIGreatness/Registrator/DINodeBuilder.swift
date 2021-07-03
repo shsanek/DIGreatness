@@ -4,7 +4,7 @@ final class DINodeBuilder
     var maker: (_ build: DIBuilderDependencyPool) throws -> Any
     var injectHandlers: [(_ object: inout Any, _ build: DIBuilderDependencyPool) throws -> Void] = []
     var provider: DIProvider
-    var lifeTime: DINodeRegistratorLifeTime = .oneInBuild
+    var lifeTime: DILifeTime = .objectGraph
 
     let position: DICodePosition
 
@@ -25,10 +25,10 @@ final class DINodeBuilder
             return
         }
         if let argumentContainer = type as? DIArgumentContainable.Type {
-            if case .oneInBuild = lifeTime {
-                lifeTime = .newEveryTime
+            if lifeTime == .objectGraph {
+                lifeTime = .prototype
             }
-            if case .singolton(let type) = lifeTime, type == .preRun {
+            if lifeTime == .perRun, lifeTime == .single {
                 throw DIError.customError(
                     "For \(self) impossible to add external arguments for singolton"
                 )

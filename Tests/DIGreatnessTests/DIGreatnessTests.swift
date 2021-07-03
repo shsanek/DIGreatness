@@ -110,7 +110,8 @@ final class DIGreatnessTests: XCTestCase
     func testLifeTimeNewEveryTime() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DITestA.init).lifeTime(.newEveryTime)
+                try registrator.register(DITestA.init)
+                    .lifeTime(.prototype)
                 try registrator.register(DITestB.init)
                 try registrator.register(DITestC.init)
             }
@@ -129,7 +130,8 @@ final class DIGreatnessTests: XCTestCase
     func testLifeTimeSingolton() throws {
         let part = DITestPart()
             .reg { registrator in
-                try registrator.register(DITestA.init).lifeTime(.singolton(.lazy))
+                try registrator.register(DITestA.init)
+                    .lifeTime(.single)
                 try registrator.register(DITestB.init)
                 try registrator.register(DITestC.init)
             }
@@ -169,7 +171,7 @@ final class DIGreatnessTests: XCTestCase
                 try registrator.register(DITestA.init)
                 try registrator.register { $0 as DITestA }
                     .map { $0 as DITestProtocol }
-                    .lifeTime(.singolton(.lazy))
+                    .lifeTime(.single)
                     .tag(DITestTag.self)
 
                 try registrator.register(DITestB.init)
@@ -190,7 +192,7 @@ final class DIGreatnessTests: XCTestCase
                 try registrator.register { $0 as DITestA }
                     .tag(DITestTag.self)
                     .map { $0 as DITestProtocol }
-                    .lifeTime(.singolton(.lazy))
+                    .lifeTime(.single)
 
                 try registrator.register(DITestB.init)
             }
@@ -323,6 +325,6 @@ extension DIGreatnessTests
         ("testResolveWithMultiPart", testResolveWithMultiPart),
         ("testPartInject", testPartInject),
         ("testErrorSearchCycle", testErrorSearchCycle),
-        ("testErrorNoMatchingSignatures", testErrorNoMatchingSignatures)
+        ("testErrorNoMatchingSignatures", testErrorNoMatchingSignatures),
     ]
 }

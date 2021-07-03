@@ -18,7 +18,7 @@ final class DITestInjectPart: DIPart
 
         /// указываем время жизни
         try registrator.register(DITestD.init)
-            .lifeTime(.singolton(.lazy))
+            .lifeTime(.single)
 
         /// спользуем каст для сохрания в DI с другим типом
         try registrator.register { $0 as DITestA }
