@@ -44,7 +44,11 @@ private extension DIResolver
         }
     }
 
-    func buildNode(node: DINode, context: DIValidateContext, path: [DINode] = []) throws {
+    func buildNode(
+        node: DINode,
+        context: DIValidateContext,
+        path: [DINode] = []
+    ) throws {
         if case .validated = node.state {
             return
         }
@@ -62,7 +66,14 @@ private extension DIResolver
         var dependencies: [DINode] = []
         let path = path + [node]
         for dependency in node.builder.info.dependencies {
-            dependencies.append(contentsOf: try self.buildDependency(dependency, node: node, context: context, path: path))
+            dependencies.append(
+                contentsOf: try self.buildDependency(
+                    dependency,
+                    node: node,
+                    context: context,
+                    path: path
+                )
+            )
         }
         node.dependencies = dependencies
         node.state = .validated
@@ -71,8 +82,15 @@ private extension DIResolver
         }
     }
 
-    func buildDependency(_ dependency: DISignatureDependency, node: DINode, context: DIValidateContext, path: [DINode]) throws -> [DINode] {
-        let allAcceptNodes = nodes[dependency.identifier.name]?.filter { $0.identifier.checkAccept(signature: dependency.identifier) } ?? []
+    func buildDependency(
+        _ dependency: DISignatureDependency,
+        node: DINode,
+        context: DIValidateContext,
+        path: [DINode]
+    ) throws -> [DINode] {
+        let allAcceptNodes = nodes[dependency.identifier.name]?.filter {
+            $0.identifier.checkAccept(signature: dependency.identifier)
+        } ?? []
         if dependency.pool == false {
             if allAcceptNodes.count == 0 {
                 throw DIError.customError(
@@ -94,7 +112,9 @@ private extension DIResolver
     func resolve<Type>(tag: Any.Type, arguments: [Any], position: DICodePosition) throws -> Type {
         let argymentsType = arguments.map { type(of: $0) }
         let signature = DISignatureIdentifier(type: Type.self, inputs: argymentsType, tag: tag)
-        let allAcceptNodes = self.nodes[signature.name]?.filter { $0.identifier.checkAccept(signature: signature) } ?? []
+        let allAcceptNodes = self.nodes[signature.name]?.filter {
+            $0.identifier.checkAccept(signature: signature)
+        } ?? []
         if allAcceptNodes.count == 0 {
             throw DIError.customError(
                 // swiftlint:disable:next line_length
@@ -120,7 +140,12 @@ private extension DIResolver
 
 public extension DIResolver
 {
-    func resolve<Type>(file: String = #file, line: Int = #line, tag: Any.Type = DIBaseTag.self, _ arguments: Any...) throws -> Type {
+    func resolve<Type>(
+        file: String = #file,
+        line: Int = #line,
+        tag: Any.Type = DIBaseTag.self,
+        _ arguments: Any...
+    ) throws -> Type {
         let position = DICodePosition(file: file, line: line)
         return try resolve(tag: tag, arguments: arguments, position: position)
     }

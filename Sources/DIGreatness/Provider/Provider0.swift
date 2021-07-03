@@ -1,6 +1,7 @@
 struct Provider0<Type>: DIProvider
 {
     var inputs: [Any.Type] { [] }
+
     func returnType<Result>(_ result: Result.Type) -> DIProvider {
         return Provider0<Result>()
     }

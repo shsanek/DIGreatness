@@ -1,7 +1,9 @@
 public protocol DIPart
 {
-    init()
     var subpars: [DIPart] { get }
+
+    init()
+
     func registration(_ registrator: DIRegistrator) throws
     func resolve(_ resolver: DIResolver) throws
 }

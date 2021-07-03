@@ -6,7 +6,7 @@ protocol DITestProtocol
 {
 }
 
-class DITestA: DITestProtocol
+final class DITestA: DITestProtocol
 {
 }
 
@@ -65,7 +65,6 @@ final class DICycle3
 
 struct DITestModel0
 {
-    
 }
 
 struct DITestModel1

@@ -3,6 +3,7 @@
 
 import PackageDescription
 
+// swiftlint:disable prohibited_global_constants
 let package = Package(
     name: "DIGreatness",
     products: [

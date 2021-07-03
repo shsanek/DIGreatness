@@ -1,10 +1,12 @@
-protocol DIContainable {
+protocol DIContainable
+{
     static var signature: DISignatureDependency { get }
 
     init(object: Any)
 }
 
-public struct DITagContainer<Tag, Type>: DIContainable {
+public struct DITagContainer<Tag, Type>: DIContainable
+{
     static var signature: DISignatureDependency {
         let signature = DISignatureIdentifier(type: Type.self, tag: Tag.self)
         return DISignatureDependency(identifier: signature, pool: false)

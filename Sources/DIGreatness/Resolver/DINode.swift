@@ -51,8 +51,10 @@ public final class DINode
     }
 }
 
-extension DINode {
-    enum State {
+extension DINode
+{
+    enum State
+    {
         case notValidated
         case validated
         case inProgress(_ context: DIValidateContext)
@@ -60,9 +62,12 @@ extension DINode {
     }
 }
 
-final class DIValidateContext { }
+final class DIValidateContext
+{
+}
 
-extension DINode: CustomDebugStringConvertible {
+extension DINode: CustomDebugStringConvertible
+{
     public var debugDescription: String {
         return "<Node \(self.identifier) \(builder.position)>"
     }

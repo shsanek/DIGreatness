@@ -1,4 +1,5 @@
-public struct DIListContainer<Tag, Type>: DIContainable {
+public struct DIListContainer<Tag, Type>: DIContainable
+{
     static var signature: DISignatureDependency {
         let signature = DISignatureIdentifier(type: Type.self, tag: Tag.self)
         return DISignatureDependency(identifier: signature, pool: true)

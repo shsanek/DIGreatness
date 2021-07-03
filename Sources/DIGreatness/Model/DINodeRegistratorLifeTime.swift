@@ -7,7 +7,8 @@ public enum DINodeRegistratorLifeTime
 
 extension DINodeRegistratorLifeTime
 {
-    public enum SingoltonType{
+    public enum SingoltonType
+    {
         case lazy
         case preRun
     }

@@ -1,3 +1,4 @@
+// swiftlint:disable type_name
 public enum DI
 {
     public static func load(_ parts: [DIPart]) throws {
