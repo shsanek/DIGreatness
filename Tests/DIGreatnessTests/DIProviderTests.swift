@@ -27,7 +27,7 @@ final class DIProviderTests: XCTestCase
             _ = try res.resolve(m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14) as DITestModel15
         }
 
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест register на все доступное колчество аргументов
@@ -201,7 +201,7 @@ final class DIProviderTests: XCTestCase
                 DITestModel14
             ) -> DITestModel15)(m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14)
         }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест register на все доступное колчество аргументов
@@ -245,7 +245,7 @@ final class DIProviderTests: XCTestCase
             _ = try res.resolve() as DITestModel14
             _ = try res.resolve() as DITestModel15
         }
-        try DI.load([part])
+        try DI.build([part])
     }
 }
 

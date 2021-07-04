@@ -96,7 +96,7 @@ let part = DITestInjectPart()
 
 /// Загружаем все нужные Part
 do {
-    try DI.load([part])
+    try DI.build([part])
 }
 catch {
 	// обработка ошибок при сборке

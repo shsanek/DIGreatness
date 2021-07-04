@@ -1,49 +1,60 @@
 // swiftlint:disable type_name
 public enum DI
 {
-    public static func load(_ parts: [DIPart]) throws {
+    public static func build(_ parts: [DIPart]) throws {
         let parts = parts.flatMap(\.allParts)
-        var errors: [Error] = []
-        let registrator = DIRegistrator()
-        parts.forEach {
-            do {
-                try $0.registration(registrator)
-            }
-            catch {
-                if let container = error as? DIErrorsContainer {
-                    errors.append(contentsOf: container.errors)
-                }
-                else {
-                    errors.append(error)
-                }
-            }
-        }
-        var container: DIResolver? = try DIResolver(registrator: registrator)
-        weak var weakContainer = container
-        if let container = container {
-            parts.forEach {
-                do {
-                    try $0.resolve(container)
-                }
-                catch {
-                    if let container = error as? DIErrorsContainer {
-                        errors.append(contentsOf: container.errors)
-                    }
-                    else {
-                        errors.append(error)
-                    }
-                }
-            }
+        var errorsContainer = DIErrorsContainer()
+
+        let registrator = makeRegistrator(parts, errorsContainer: &errorsContainer)
+        var resolver = makeResolver(registrator, errorsContainer: &errorsContainer)
+
+        weak var weakResolver = resolver
+
+        resolve(parts, resolver: resolver, errorsContainer: &errorsContainer)
+
+        resolver = nil
+        if weakResolver != nil {
+            errorsContainer.addError(DIError.customError("Was captured resolver"))
         }
 
-        container = nil
-        if weakContainer != nil {
-            errors.append(DIError.customError(
-                "Was captured resolver"
-            ))
+        try errorsContainer.throwIfNeeded()
+    }
+
+    private static func makeRegistrator(
+        _ parts: [DIPart],
+        errorsContainer: inout DIErrorsContainer
+    ) -> DIRegistrator {
+        let registrator = DIRegistrator()
+        parts.forEach { part in
+            errorsContainer.do {
+                try part.registration(registrator)
+            }
         }
-        if errors.isEmpty == false {
-            throw DIErrorsContainer(errors: errors)
+        return registrator
+    }
+
+    private static func makeResolver(
+        _ registrator: DIRegistrator,
+        errorsContainer: inout DIErrorsContainer
+    ) -> DIResolver? {
+        var resolver: DIResolver?
+        errorsContainer.do {
+            resolver = try DIResolver(registrator: registrator)
+        }
+        return resolver
+    }
+
+    private static func resolve(
+        _ parts: [DIPart],
+        resolver: DIResolver?,
+        errorsContainer: inout DIErrorsContainer
+    ) {
+        if let resolver = resolver {
+            parts.forEach { part in
+                errorsContainer.do {
+                    try part.resolve(resolver)
+                }
+            }
         }
     }
 }

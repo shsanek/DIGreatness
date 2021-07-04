@@ -26,22 +26,16 @@ private extension DIResolver
     }
 
     func buildNodes() throws {
-        var errors: [Error] = []
-        var context = DIValidateContext()
+        var errorContainer = DIErrorsContainer()
         nodes.forEach { container in
             container.value.forEach { node in
-                do {
+                errorContainer.do {
+                    let context = DIValidateContext()
                     try buildNode(node: node, context: context)
-                }
-                catch {
-                    context = DIValidateContext()
-                    errors.append(error)
                 }
             }
         }
-        if errors.isEmpty == false {
-            throw DIErrorsContainer(errors: errors)
-        }
+        try errorContainer.throwIfNeeded()
     }
 
     func buildNode(

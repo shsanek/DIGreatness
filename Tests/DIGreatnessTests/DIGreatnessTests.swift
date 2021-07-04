@@ -13,7 +13,7 @@ final class DIGreatnessTests: XCTestCase
             .res { resolver in
                 _ = try resolver.resolve() as DITestA
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест на resolve одного элемента при касте его типа optional
@@ -25,7 +25,7 @@ final class DIGreatnessTests: XCTestCase
             .res { resolver in
                 _ = try resolver.resolve() as DITestA?
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест на resolve кложура для создания элемента
@@ -38,7 +38,7 @@ final class DIGreatnessTests: XCTestCase
                 let maker = try resolver.resolve() as () -> DITestA
                 _ = maker()
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест на resolve элементов  которые связаны между собой
@@ -53,7 +53,7 @@ final class DIGreatnessTests: XCTestCase
                 let maker = try resolver.resolve() as () -> DITestB
                 _ = maker()
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест на resolve элемента с внешними элементами
@@ -67,7 +67,7 @@ final class DIGreatnessTests: XCTestCase
                 let maker = try resolver.resolve() as (DITestA) -> DITestB
                 _ = maker(DITestA())
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест на resolve элемента с несколькими зарегистрированными сигнатурами
@@ -84,7 +84,7 @@ final class DIGreatnessTests: XCTestCase
                 let maker2 = try resolver.resolve() as () -> DITestB
                 _ = maker2()
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест базовой времени жизни элемента
@@ -103,7 +103,7 @@ final class DIGreatnessTests: XCTestCase
                 XCTAssert(c2.a === c2.b.a)
                 XCTAssert(c1.a !== c2.b.a)
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест .newEveryTime времени жизни элемента
@@ -123,7 +123,7 @@ final class DIGreatnessTests: XCTestCase
                 XCTAssert(c2.a !== c2.b.a)
                 XCTAssert(c1.a !== c2.b.a)
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест .singolton времени жизни элемента
@@ -143,7 +143,7 @@ final class DIGreatnessTests: XCTestCase
                 XCTAssert(c2.a === c2.b.a)
                 XCTAssert(c1.a === c2.b.a)
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест resolver с смешеными связями и внешними аргументами
@@ -161,7 +161,7 @@ final class DIGreatnessTests: XCTestCase
                 let d = try resolver.resolve() as DITestD
                 _ = d.c(d.b())
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест resolver с тэгам
@@ -181,7 +181,7 @@ final class DIGreatnessTests: XCTestCase
             .res { resolver in
                 _ = try resolver.resolve() as DITestD
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест на  регстрацию нескольких Part
@@ -207,13 +207,13 @@ final class DIGreatnessTests: XCTestCase
             .res { resolver in
                 _ = try resolver.resolve(tag: DITestTag.self) as DITestProtocol
             }
-        try DI.load([part1, part2])
+        try DI.build([part1, part2])
     }
 
     /// Проверка  Part
     func testPartInject() throws {
         let part = DITestInjectPart()
-        try DI.load([part])
+        try DI.build([part])
         let b = part.bMaker()
         _ = part.cMaker(b)
         XCTAssert(type(of: part.a) == DITestA.self)
@@ -240,7 +240,7 @@ final class DIGreatnessTests: XCTestCase
                 let protocols = try resolver.resolve() as [DITestProtocol]
                 XCTAssert(protocols.count == 2)
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест inject
@@ -261,7 +261,7 @@ final class DIGreatnessTests: XCTestCase
                 XCTAssert(e.a != nil)
                 XCTAssert(e.c?(e.b) != nil)
             }
-        try DI.load([part])
+        try DI.build([part])
     }
 
     /// Тест проверки на циклы
@@ -275,9 +275,10 @@ final class DIGreatnessTests: XCTestCase
             .res { _ in
             }
         do {
-            try DI.load([part])
+            try DI.build([part])
         }
         catch {
+            print("\(error)")
             XCTAssert("\(error)".hasPrefix("Found cyclic dependence"))
             return
         }
@@ -294,7 +295,7 @@ final class DIGreatnessTests: XCTestCase
             .res { _ in
             }
         do {
-            try DI.load([part])
+            try DI.build([part])
         }
         catch {
             XCTAssert("\(error)".contains("no matching signatures"))
