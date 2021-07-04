@@ -62,10 +62,6 @@ extension DINode
     }
 }
 
-final class DIValidateContext
-{
-}
-
 extension DINode: CustomDebugStringConvertible
 {
     public var debugDescription: String {

@@ -8,6 +8,19 @@ public final class DIResolver
     }
 }
 
+public extension DIResolver
+{
+    func resolve<Type>(
+        file: String = #file,
+        line: Int = #line,
+        tag: Any.Type = DIBaseTag.self,
+        _ arguments: Any...
+    ) throws -> Type {
+        let position = DICodePosition(file: file, line: line)
+        return try resolve(tag: tag, arguments: arguments, position: position)
+    }
+}
+
 private extension DIResolver
 {
     func createNodes(registrator: DIRegistrator) throws {
@@ -67,6 +80,9 @@ private extension DIResolver
                     context: context,
                     path: path
                 )
+                    .filter { node in
+                        dependencies.contains(where: { node === $0 }) == false
+                    }
             )
         }
         node.dependencies = dependencies
@@ -129,18 +145,5 @@ private extension DIResolver
             )
         }
         return result
-    }
-}
-
-public extension DIResolver
-{
-    func resolve<Type>(
-        file: String = #file,
-        line: Int = #line,
-        tag: Any.Type = DIBaseTag.self,
-        _ arguments: Any...
-    ) throws -> Type {
-        let position = DICodePosition(file: file, line: line)
-        return try resolve(tag: tag, arguments: arguments, position: position)
     }
 }
