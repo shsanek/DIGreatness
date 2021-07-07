@@ -1,4 +1,4 @@
-enum DIError: Error
+public enum DIError: Error
 {
     case error(_ info: DIErrorInfo)
     case container(_ container: DIErrorsContainer)
@@ -6,8 +6,8 @@ enum DIError: Error
 
 extension DIError
 {
-    static func customError(file: String = #file, line: Int = #line, _ description: String) -> Self {
-        return .error(DIErrorInfo(file: file, line: line, description: description))
+    static func customError(file: String = #file, line: Int = #line, type: DIErrorInfo.ErrorType, _ description: String) -> Self {
+        return .error(DIErrorInfo(file: file, line: line, description: description, type: type))
     }
 }
 

@@ -7,6 +7,8 @@ final class DITestInjectPart: DIPart
     @DIInject var a: DITestProtocol
     @DIInject var bMaker: () -> DITestB
     @DIInject var cMaker: (DITestB) -> DITestC
+    @DIInject var eMaker: () -> DITestE
+    @DIInject var dMaker: () -> DITestD
 
     /// В случаи необходимости обьявите зависмости от других Part
     // var subpars: [DIPart]

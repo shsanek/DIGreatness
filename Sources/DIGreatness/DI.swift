@@ -12,11 +12,15 @@ public enum DI
 
         resolve(parts, resolver: resolver, errorsContainer: &errorsContainer)
 
+        errorsContainer.do {
+            try resolver?.checkUseNodes()
+        }
+    
         resolver = nil
         if weakResolver != nil {
-            errorsContainer.addError(DIError.customError("Was captured resolver"))
+            errorsContainer.addError(DIError.customError(type: .retainResolver, "Was captured resolver"))
         }
-
+        
         try errorsContainer.throwIfNeeded()
     }
 

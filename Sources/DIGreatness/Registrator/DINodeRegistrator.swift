@@ -58,6 +58,7 @@ extension DINodeRegistrator
         if builder.info.identifier.inputs.count > 0 {
             if lifeTime != .prototype {
                 throw DIError.customError(
+                    type: .incorectLifetime,
                     "For \(self.builder) it is impossible to set the state because there are external arguments"
                 )
             }

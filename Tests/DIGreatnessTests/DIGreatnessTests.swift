@@ -258,6 +258,7 @@ final class DIGreatnessTests: XCTestCase
             }
             .res { resolver in
                 let e = try resolver.resolve() as DITestE
+                let _ = try resolver.resolve() as DITestProtocol
                 XCTAssert(e.a != nil)
                 XCTAssert(e.c?(e.b) != nil)
             }
@@ -272,14 +273,14 @@ final class DIGreatnessTests: XCTestCase
                 try registrator.register(DICycle2.init)
                 try registrator.register(DICycle3.init)
             }
-            .res { _ in
+            .res { res in
+                let _ = try res.resolve() as DICycle1
             }
         do {
             try DI.build([part])
         }
-        catch {
-            print("\(error)")
-            XCTAssert("\(error)".hasPrefix("Found cyclic dependence"))
+        catch DIError.error(let error) {
+            XCTAssert(error.type == .cyclicDependency)
             return
         }
         XCTFail("no cyclic dependency found")
@@ -292,13 +293,14 @@ final class DIGreatnessTests: XCTestCase
                 try registrator.register(DITestA.init)
                 try registrator.register(DITestC.init)
             }
-            .res { _ in
+            .res { res in
+                let _ = try res.resolve() as DITestC
             }
         do {
             try DI.build([part])
         }
-        catch {
-            XCTAssert("\(error)".contains("no matching signatures"))
+        catch DIError.error(let error) {
+            XCTAssert(error.type == .signatureNotFound)
             return
         }
         XCTFail("no matching signatures found")

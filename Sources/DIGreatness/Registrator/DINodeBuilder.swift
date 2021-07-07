@@ -30,6 +30,7 @@ final class DINodeBuilder
             }
             if lifeTime == .perRun, lifeTime == .single {
                 throw DIError.customError(
+                    type: .incorectLifetime,
                     "For \(self) impossible to add external arguments for singolton"
                 )
             }

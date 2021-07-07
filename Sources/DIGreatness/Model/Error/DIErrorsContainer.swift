@@ -23,7 +23,11 @@ extension DIErrorsContainer
 
     func throwIfNeeded() throws {
         if errors.isEmpty == false {
-            throw DIError.container(self)
+            if errors.count == 1 {
+                throw self.errors[0]
+            } else {
+                throw DIError.container(self)
+            }
         }
     }
 }

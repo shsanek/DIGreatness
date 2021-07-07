@@ -2,6 +2,7 @@ public final class DINode
 {
     let builder: DINodeBuilder
 
+    var isProvider: Bool = false
     var singleton: Any?
     var dependencies: [DINode] = []
     var state: State = .notValidated
@@ -16,6 +17,13 @@ public final class DINode
 
     init(_ builder: DINodeBuilder) {
         self.builder = builder
+    }
+    
+    func makeProviderNode() -> DINode {
+        let providerNode = self.builder.provider.make(with: self)
+        providerNode.builder.info.dependencies.append(DISignatureDependency(identifier: self.identifier))
+        providerNode.isProvider = true
+        return providerNode
     }
 
     func fetch(_ arguments: [Any]) -> Any {

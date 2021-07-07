@@ -4,7 +4,6 @@ public final class DIResolver
 
     init(registrator: DIRegistrator) throws {
         try self.createNodes(registrator: registrator)
-        try self.buildNodes()
     }
 }
 
@@ -21,13 +20,31 @@ public extension DIResolver
     }
 }
 
+extension DIResolver{
+    func checkUseNodes() throws {
+        var errorContainer = DIErrorsContainer()
+        for container in nodes {
+            for node in container.value {
+                errorContainer.do {
+                    if case .notValidated = node.state, node.isProvider == false {
+                        throw DIError.customError(
+                            type: .notUsedNode,
+                            "\(node.builder) not used"
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
 private extension DIResolver
 {
     func createNodes(registrator: DIRegistrator) throws {
         registrator.builders.forEach { builder in
             let node = DINode(builder)
             self.addNode(node)
-            self.addNode(builder.provider.make(with: node))
+            self.addNode(node.makeProviderNode())
         }
     }
 
@@ -63,6 +80,7 @@ private extension DIResolver
             if nodeContext === context {
                 let text = "[\n\t" + (path + [node]).map { "\($0)" }.joined(separator: ",\n\t") + "\n]"
                 throw DIError.customError(
+                    type: .cyclicDependency,
                     "Found cyclic dependence:\(text)"
                 )
             }
@@ -104,12 +122,14 @@ private extension DIResolver
         if dependency.pool == false {
             if allAcceptNodes.count == 0 {
                 throw DIError.customError(
+                    type: .signatureNotFound,
                     // swiftlint:disable:next line_length
                     "Dependency for \(node.builder) no matching signatures \(dependency.identifier) found. Signatures for the given type: \(nodes[dependency.identifier.name]?.map(\.builder) ?? [])"
                 )
             }
             else if allAcceptNodes.count > 1 {
                 throw DIError.customError(
+                    type: .moreOneMatchingSignature,
                     // swiftlint:disable:next line_length
                     "Dependency for \(node.builder) more than one matching signature registered \(dependency.identifier). Signatures for the given type: \(allAcceptNodes.map(\.builder))"
                 )
@@ -127,19 +147,24 @@ private extension DIResolver
         } ?? []
         if allAcceptNodes.count == 0 {
             throw DIError.customError(
+                type: .signatureNotFound,
                 // swiftlint:disable:next line_length
                 "For \(signature) in \(position) no matching signatures found. Signatures for the given type: \(nodes[signature.name]?.map(\.builder) ?? [])"
             )
         }
         else if allAcceptNodes.count > 1 {
             throw DIError.customError(
+                type: .moreOneMatchingSignature,
                 // swiftlint:disable:next line_length
                 "More than one matching signature registered \(signature) in \(position).  Signatures for the given type: \(allAcceptNodes.map(\.builder) )"
             )
         }
-        let obj = allAcceptNodes[0].fetch(arguments)
+        let node = allAcceptNodes[0]
+        try self.buildNode(node: node, context: DIValidateContext())
+        let obj = node.fetch(arguments)
         guard let result = obj as? Type else {
             throw DIError.customError(
+                type: .incorectType,
                 // swiftlint:disable:next line_length
                 "More than one matching signature registered \(signature) in \(position). Signatures for the given type: \(allAcceptNodes.map(\.builder) )"
             )
