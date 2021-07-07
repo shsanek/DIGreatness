@@ -6,8 +6,10 @@ public struct DIErrorInfo
     public let type: ErrorType
 }
 
-extension DIErrorInfo {
-    public enum ErrorType {
+extension DIErrorInfo
+{
+    public enum ErrorType
+    {
         case signatureNotFound
         case cyclicDependency
         case moreOneMatchingSignature

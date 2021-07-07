@@ -25,7 +25,8 @@ extension DIErrorsContainer
         if errors.isEmpty == false {
             if errors.count == 1 {
                 throw self.errors[0]
-            } else {
+            }
+            else {
                 throw DIError.container(self)
             }
         }

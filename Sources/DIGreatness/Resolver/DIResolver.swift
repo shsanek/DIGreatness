@@ -20,7 +20,8 @@ public extension DIResolver
     }
 }
 
-extension DIResolver{
+extension DIResolver
+{
     func checkUseNodes() throws {
         var errorContainer = DIErrorsContainer()
         for container in nodes {

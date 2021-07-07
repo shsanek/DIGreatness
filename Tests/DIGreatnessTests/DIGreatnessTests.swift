@@ -258,7 +258,7 @@ final class DIGreatnessTests: XCTestCase
             }
             .res { resolver in
                 let e = try resolver.resolve() as DITestE
-                let _ = try resolver.resolve() as DITestProtocol
+                _ = try resolver.resolve() as DITestProtocol
                 XCTAssert(e.a != nil)
                 XCTAssert(e.c?(e.b) != nil)
             }
@@ -274,7 +274,7 @@ final class DIGreatnessTests: XCTestCase
                 try registrator.register(DICycle3.init)
             }
             .res { res in
-                let _ = try res.resolve() as DICycle1
+                _ = try res.resolve() as DICycle1
             }
         do {
             try DI.build([part])
@@ -294,7 +294,7 @@ final class DIGreatnessTests: XCTestCase
                 try registrator.register(DITestC.init)
             }
             .res { res in
-                let _ = try res.resolve() as DITestC
+                _ = try res.resolve() as DITestC
             }
         do {
             try DI.build([part])
