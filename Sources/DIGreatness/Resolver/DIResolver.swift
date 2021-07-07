@@ -36,6 +36,7 @@ extension DIResolver
                 }
             }
         }
+        try errorContainer.throwIfNeeded()
     }
 }
 

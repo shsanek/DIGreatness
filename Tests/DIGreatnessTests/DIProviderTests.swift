@@ -5,7 +5,7 @@ final class DIProviderTests: XCTestCase
 {
 
     /// Тест register на все доступное колчество аргументов
-    func testResolveWithArguments() throws {
+    func test01_resolveWithArguments() throws {
         let part = self.makePart()
 
         part.res { res in
@@ -31,7 +31,7 @@ final class DIProviderTests: XCTestCase
     }
 
     /// Тест register на все доступное колчество аргументов
-    func testResolveMakerWithArguments() throws {
+    func test02_resolveMakerWithArguments() throws {
         let part = self.makePart()
         part.res { res in
             let m0 = (try res.resolve() as () -> DITestModel0)()
@@ -205,7 +205,7 @@ final class DIProviderTests: XCTestCase
     }
 
     /// Тест register на все доступное колчество аргументов
-    func testInit() throws {
+    func test03_init() throws {
         let part = DITestPart()
 
         part.reg { reg in
@@ -443,8 +443,8 @@ private extension DIProviderTests
 extension DIProviderTests
 {
     static var allTests = [
-        ("testResolveWithArguments", testResolveWithArguments),
-        ("testResolveMakerWithArguments", testResolveMakerWithArguments),
-        ("testInit", testInit),
+        ("test01_resolveWithArguments", test01_resolveWithArguments),
+        ("test02_resolveMakerWithArguments", test02_resolveMakerWithArguments),
+        ("test03_init", test03_init),
     ]
 }

@@ -20,7 +20,6 @@ public enum DI
         if weakResolver != nil {
             errorsContainer.addError(DIError.customError(type: .retainResolver, "Was captured resolver"))
         }
-
         try errorsContainer.throwIfNeeded()
     }
 

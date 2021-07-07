@@ -5,7 +5,7 @@ final class DIGreatnessTests: XCTestCase
 {
 
     /// Тест на resolve одного элемента
-    func testResolve() throws {
+    func test01_resolve() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -17,7 +17,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест на resolve одного элемента при касте его типа optional
-    func testResolveOptional() throws {
+    func test02_resolveOptional() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -29,7 +29,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест на resolve кложура для создания элемента
-    func testResolveMaker() throws {
+    func test03_resolveMaker() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -42,7 +42,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест на resolve элементов  которые связаны между собой
-    func testResolveWithDependency() throws {
+    func test04_resolveWithDependency() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -57,7 +57,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест на resolve элемента с внешними элементами
-    func testResolveWithArgument() throws {
+    func test05_resolveWithArgument() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register { DITestB(a: diArg($0)) }
@@ -71,7 +71,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест на resolve элемента с несколькими зарегистрированными сигнатурами
-    func testResolveMultiSignature() throws {
+    func test06_resolveMultiSignature() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -88,7 +88,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест базовой времени жизни элемента
-    func testLifeTime() throws {
+    func test07_lifeTime() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -107,7 +107,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест .newEveryTime времени жизни элемента
-    func testLifeTimeNewEveryTime() throws {
+    func test08_lifeTimeNewEveryTime() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -127,7 +127,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест .singolton времени жизни элемента
-    func testLifeTimeSingolton() throws {
+    func test09_lifeTimeSingolton() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -147,7 +147,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест resolver с смешеными связями и внешними аргументами
-    func testResolveWithDependencyAndExternalArgument() throws {
+    func test10_resolveWithDependencyAndExternalArgument() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -165,7 +165,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест resolver с тэгам
-    func testResolveWithTag() throws {
+    func test11_resolveWithTag() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -185,7 +185,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест на  регстрацию нескольких Part
-    func testResolveWithMultiPart() throws {
+    func test12_resolveWithMultiPart() throws {
         let part1 = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -211,7 +211,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Проверка  Part
-    func testPartInject() throws {
+    func test13_partInject() throws {
         let part = DITestInjectPart()
         try DI.build([part])
         let b = part.bMaker()
@@ -221,7 +221,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест всех элементов по заданой сигнатуре
-    func testResolveList() throws {
+    func test14_resolveList() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -244,7 +244,7 @@ final class DIGreatnessTests: XCTestCase
     }
 
     /// Тест inject
-    func testInject() throws {
+    func test15_inject() throws {
         let part = DITestPart()
             .reg { registrator in
                 try registrator.register(DITestA.init)
@@ -264,70 +264,25 @@ final class DIGreatnessTests: XCTestCase
             }
         try DI.build([part])
     }
-
-    /// Тест проверки на циклы
-    func testErrorSearchCycle() throws {
-        let part = DITestPart()
-            .reg { registrator in
-                try registrator.register(DICycle1.init)
-                try registrator.register(DICycle2.init)
-                try registrator.register(DICycle3.init)
-            }
-            .res { res in
-                _ = try res.resolve() as DICycle1
-            }
-        do {
-            try DI.build([part])
-        }
-        catch DIError.error(let error) {
-            XCTAssert(error.type == .cyclicDependency)
-            return
-        }
-        XCTFail("no cyclic dependency found")
-    }
-
-    /// Тест проверки на оцутсвие нужной сигнатуры
-    func testErrorNoMatchingSignatures() throws {
-        let part = DITestPart()
-            .reg { registrator in
-                try registrator.register(DITestA.init)
-                try registrator.register(DITestC.init)
-            }
-            .res { res in
-                _ = try res.resolve() as DITestC
-            }
-        do {
-            try DI.build([part])
-        }
-        catch DIError.error(let error) {
-            XCTAssert(error.type == .signatureNotFound)
-            return
-        }
-        XCTFail("no matching signatures found")
-    }
 }
 
 extension DIGreatnessTests
 {
     static var allTests = [
-        ("testResolve", testResolve),
-        ("testResolveOptional", testResolveOptional),
-        ("testResolveMaker", testResolveMaker),
-        ("testResolveWithDependency", testResolveWithDependency),
-        ("testResolveWithArgument", testResolveWithArgument),
-        ("testResolveMultiSignature", testResolveMultiSignature),
-        ("testLifeTime", testLifeTime),
-        ("testLifeTimeSingolton", testLifeTimeSingolton),
-        ("testLifeTimeNewEveryTime", testLifeTimeNewEveryTime),
-        ("testResolveWithDependencyAndExternalArgument", testResolveWithDependencyAndExternalArgument),
-        ("testResolveWithTag", testResolveWithTag),
-        ("testResolveWithMultiPart", testResolveWithMultiPart),
-        ("testInject", testInject),
-        ("testPartInject", testPartInject),
-        ("testResolveList", testResolveList),
-        ("testResolveWithMultiPart", testResolveWithMultiPart),
-        ("testPartInject", testPartInject),
-        ("testErrorSearchCycle", testErrorSearchCycle),
-        ("testErrorNoMatchingSignatures", testErrorNoMatchingSignatures),
+        ("test01_resolve", test01_resolve),
+        ("test02_resolveOptional", test02_resolveOptional),
+        ("test03_resolveMaker", test03_resolveMaker),
+        ("test04_resolveWithDependency", test04_resolveWithDependency),
+        ("test05_resolveWithArgument", test05_resolveWithArgument),
+        ("test06_resolveMultiSignature", test06_resolveMultiSignature),
+        ("test07_lifeTime", test07_lifeTime),
+        ("test08_lifeTimeNewEveryTime", test08_lifeTimeNewEveryTime),
+        ("test09_lifeTimeSingolton", test09_lifeTimeSingolton),
+        ("test10_resolveWithDependencyAndExternalArgument", test10_resolveWithDependencyAndExternalArgument),
+        ("test11_resolveWithTag", test11_resolveWithTag),
+        ("test12_resolveWithMultiPart", test12_resolveWithMultiPart),
+        ("test13_partInject", test13_partInject),
+        ("test14_resolveList", test14_resolveList),
+        ("test15_inject", test15_inject),
     ]
 }

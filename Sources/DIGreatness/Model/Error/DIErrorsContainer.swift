@@ -1,6 +1,15 @@
 public struct DIErrorsContainer
 {
     public var errors: [Error] = []
+
+    public var diErrors: [DIErrorInfo] {
+        self.errors.compactMap { $0 as? DIError }.compactMap { error -> DIErrorInfo? in
+            if case .error(let info) = error {
+                return info
+            }
+            return nil
+        }
+    }
 }
 
 extension DIErrorsContainer
