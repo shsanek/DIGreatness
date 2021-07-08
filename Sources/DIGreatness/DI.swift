@@ -1,6 +1,23 @@
 // swiftlint:disable type_name
+
+/// Use to register and retrieve dependencies
 public enum DI
 {
+    /// Build parts
+    ///
+    /// First, each part will recursively call subpars
+    /// Then each part will have DIPart.registration called
+    /// Then each part will have DIPart.resolve called
+    ///
+    /// Usage:
+    ///
+    ///     let part1 = DITestPart1()
+    ///     let part2 = DITestPart2()
+    ///     try DI.build([part1, part2])
+    ///
+    /// - Throws: return DIError
+    ///
+    /// - Important Build with each part must be called at most once
     public static func build(_ parts: [DIPart]) throws {
         let parts = parts.flatMap(\.allParts)
         var errorsContainer = DIErrorsContainer()
@@ -22,8 +39,11 @@ public enum DI
         }
         try errorsContainer.throwIfNeeded()
     }
+}
 
-    private static func makeRegistrator(
+private extension DI
+{
+    static func makeRegistrator(
         _ parts: [DIPart],
         errorsContainer: inout DIErrorsContainer
     ) -> DIRegistrator {
@@ -36,7 +56,7 @@ public enum DI
         return registrator
     }
 
-    private static func makeResolver(
+    static func makeResolver(
         _ registrator: DIRegistrator,
         errorsContainer: inout DIErrorsContainer
     ) -> DIResolver? {
@@ -47,7 +67,7 @@ public enum DI
         return resolver
     }
 
-    private static func resolve(
+    static func resolve(
         _ parts: [DIPart],
         resolver: DIResolver?,
         errorsContainer: inout DIErrorsContainer

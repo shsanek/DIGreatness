@@ -1,9 +1,14 @@
+/// Use to extract dependencies from DI
+///
+/// - Important Create only inside DIPart
+/// - Important Only fetch values after call DI.build([DIPart]) with your parts
 @propertyWrapper public final class DIInject<Type>: DIInjectable
 {
     public var wrappedValue: Type {
         get {
             guard let value = self.value else {
-                fatalError("[DI] You can only use DIInject inside DIPart, make sure DIPart has been loaded")
+                // swiftlint:disable:next line_length
+                fatalError("[DI] You can only use DIInject inside DIPart, make sure DIPart has been loaded in \(self.position))")
             }
             return value
         }
