@@ -6,7 +6,7 @@ public protocol DIPart
     /// Parts that must also be connected to DI
     ///
     /// The default implementation returns an empty array
-    var subpars: [DIPart] { get }
+    var subparts: [DIPart] { get }
 
     /// Implement to register the dependencies of this part
     ///
@@ -26,7 +26,7 @@ public protocol DIPart
 public extension DIPart
 {
     /// Default implementation
-    var subpars: [DIPart] {
+    var subparts: [DIPart] {
         []
     }
 
@@ -52,6 +52,6 @@ public extension DIPart
 internal extension DIPart
 {
     var allParts: [DIPart] {
-        return self.subpars.flatMap { $0.allParts } + [self]
+        return self.subparts.flatMap { $0.allParts } + [self]
     }
 }

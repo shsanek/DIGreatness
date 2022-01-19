@@ -31,7 +31,7 @@ public final class DINode
         return make(storage: storage, arguments)
     }
 
-    func makeIfNeeed(storage: DIBuilderDependencyStorage, _ arguments: [Any]) -> Any {
+    func makeIfNeed(storage: DIBuilderDependencyStorage, _ arguments: [Any]) -> Any {
         switch builder.lifeTime {
         case .prototype:
             return make(storage: storage, arguments)

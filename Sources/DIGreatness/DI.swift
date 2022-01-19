@@ -5,7 +5,7 @@ public enum DI
 {
     /// Build parts
     ///
-    /// First, each part will recursively call subpars
+    /// First, each part will recursively call subparts
     /// Then each part will have DIPart.registration called
     /// Then each part will have DIPart.resolve called
     ///
@@ -25,14 +25,13 @@ public enum DI
         let registrator = makeRegistrator(parts, errorsContainer: &errorsContainer)
         var resolver = makeResolver(registrator, errorsContainer: &errorsContainer)
 
-        weak var weakResolver = resolver
-
         resolve(parts, resolver: resolver, errorsContainer: &errorsContainer)
 
         errorsContainer.do {
             try resolver?.checkUseNodes()
         }
 
+        weak var weakResolver = resolver
         resolver = nil
         if weakResolver != nil {
             errorsContainer.addError(DIError.customError(type: .retainResolver, "Was captured resolver"))

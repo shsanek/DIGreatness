@@ -107,7 +107,7 @@ private extension DIResolver
         }
         node.dependencies = dependencies
         node.state = .validated
-        if node.builder.lifeTime == .perRun {
+        if node.builder.lifeTime == .single {
             _ = node.fetch([])
         }
     }

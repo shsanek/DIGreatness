@@ -5,7 +5,7 @@
 ## Как пользоваться
 
 ```Swift
-/// Наши классы
+/// Ваши классы
 protocol DITestProtocol {
 }
 
@@ -52,9 +52,9 @@ final class DITestInjectPart: DIPart
     @DIInject var cMaker: (DITestB) -> DITestC
 
     /// В случаи необходимости обьявите зависмости от других Part
-    // var subpars: [DIPart]
+    /// var subparts: [DIPart]
 
-     /// Регистрируем нужные компоненты
+    /// Регистрируем нужные компоненты
     func registration(_ registrator: DIRegistrator) throws {
         try registrator.register(DITestA.init)
         try registrator.register(DITestB.init)
@@ -81,7 +81,7 @@ final class DITestInjectPart: DIPart
             .inject(\.c)
     }
 
-//    Зависимости можно извлекать руками
+//    Зависимости можно извлекать руками без использования @DIInject
 //    func resolve(_ resolver: DIResolver) throws {
 //        /// Чтобы при этом работал @DIInject
 //        try autoInjection(resolver)

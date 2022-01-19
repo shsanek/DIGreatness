@@ -27,7 +27,7 @@ final class DIBuilderDependencyPool
         )
     }
 
-    private func getArgument<Type>(_ argumentContainer: DIArgumentContainable.Type ) -> Type {
+    private func getArgument<Type>(_ argumentContainer: DIArgumentContainable.Type) -> Type {
         let object = self.arguments.removeFirst()
         guard let result = argumentContainer.init(object: object) as? Type else {
             fatalError("[DI] Incorect type '\(object)' is not '\(Type.self)'")
@@ -42,9 +42,9 @@ final class DIBuilderDependencyPool
     ) -> Type {
         let dependencies = node.dependencies
             .filter { $0.identifier.checkAccept(signature: signature.identifier) }
-            .map { $0.makeIfNeeed(storage: storage, arguments) }
+            .map { $0.makeIfNeed(storage: storage, arguments) }
 
-        var object: Any
+        let object: Any
         if signature.pool {
             object = map(dependencies)
         }

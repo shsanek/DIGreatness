@@ -11,7 +11,7 @@ final class DITestInjectPart: DIPart
     @DIInject var dMaker: () -> DITestD
 
     /// В случаи необходимости обьявите зависмости от других Part
-    // var subpars: [DIPart]
+    // var subparts: [DIPart]
 
      /// Регистрируем нужные компоненты
     func registration(_ registrator: DIRegistrator) throws {
