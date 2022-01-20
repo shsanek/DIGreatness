@@ -10,6 +10,10 @@ public final class DINode
     lazy var name: String = {
         return identifier.name
     }()
+    
+    lazy var hash: Int = {
+        return identifier.hash
+    }()
 
     var identifier: DISignatureIdentifier {
         builder.info.identifier

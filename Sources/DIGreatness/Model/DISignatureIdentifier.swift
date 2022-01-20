@@ -1,11 +1,23 @@
 public struct DISignatureIdentifier
 {
-    var type: Any.Type
+    var type: Any.Type {
+        didSet {
+            self.name = "\((type as? DIContainerType.Type)?.baseType ?? type)"
+            self.hash = self.name.hashValue
+        }
+    }
     var inputs: [Any.Type] = []
     var tag: Any.Type = DIBaseTag.self
 
-    var name: String {
-        return "\((type as? DIContainerType.Type)?.baseType ?? type)"
+    private(set) var name: String
+    private(set) var hash: Int
+    
+    init(type: Any.Type, inputs: [Any.Type] = [], tag: Any.Type = DIBaseTag.self) {
+        self.inputs = inputs
+        self.tag = tag
+        self.type = type
+        self.name = "\((type as? DIContainerType.Type)?.baseType ?? type)"
+        self.hash = self.name.hashValue
     }
 
     func checkAccept(signature: DISignatureIdentifier) -> Bool {

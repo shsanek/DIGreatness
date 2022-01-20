@@ -5,7 +5,7 @@ Pod::Spec.new do |spec|
   spec.homepage = "https://github.com/shsanek/DIGreatness"
 
   spec.license = { 
-    type: 'Apache-2.0 License',
+    type: 'MIT',
   }
 
   spec.author = { "Alexander Shipin" => "ssanek212@gmail.com" }

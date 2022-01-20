@@ -1,6 +1,6 @@
 public final class DIResolver
 {
-    private var nodes: [String: [DINode]] = [:]
+    private var nodes: [Int: [DINode]] = [:]
 
     init(registrator: DIRegistrator) throws {
         try self.createNodes(registrator: registrator)
@@ -51,10 +51,10 @@ private extension DIResolver
     }
 
     func addNode(_ node: DINode) {
-        if nodes[node.name] == nil {
-            nodes[node.name] = []
+        if nodes[node.hash] == nil {
+            nodes[node.hash] = []
         }
-        nodes[node.name]?.append(node)
+        nodes[node.hash]?.append(node)
     }
 
     func buildNodes() throws {
@@ -118,7 +118,7 @@ private extension DIResolver
         context: DIValidateContext,
         path: [DINode]
     ) throws -> [DINode] {
-        let allAcceptNodes = nodes[dependency.identifier.name]?.filter {
+        let allAcceptNodes = nodes[dependency.identifier.hash]?.filter {
             $0.identifier.checkAccept(signature: dependency.identifier)
         } ?? []
         if dependency.pool == false {
@@ -126,7 +126,7 @@ private extension DIResolver
                 throw DIError.customError(
                     type: .signatureNotFound,
                     // swiftlint:disable:next line_length
-                    "Dependency for \(node.builder) no matching signatures \(dependency.identifier) found. Signatures for the given type: \(nodes[dependency.identifier.name]?.map(\.builder) ?? [])"
+                    "Dependency for \(node.builder) no matching signatures \(dependency.identifier) found. Signatures for the given type: \(nodes[dependency.identifier.hash]?.map(\.builder) ?? [])"
                 )
             }
             else if allAcceptNodes.count > 1 {
@@ -144,14 +144,14 @@ private extension DIResolver
     func resolve<Type>(tag: Any.Type, arguments: [Any], position: DICodePosition) throws -> Type {
         let argymentsType = arguments.map { type(of: $0) }
         let signature = DISignatureIdentifier(type: Type.self, inputs: argymentsType, tag: tag)
-        let allAcceptNodes = self.nodes[signature.name]?.filter {
+        let allAcceptNodes = self.nodes[signature.hash]?.filter {
             $0.identifier.checkAccept(signature: signature)
         } ?? []
         if allAcceptNodes.count == 0 {
             throw DIError.customError(
                 type: .signatureNotFound,
                 // swiftlint:disable:next line_length
-                "For \(signature) in \(position) no matching signatures found. Signatures for the given type: \(nodes[signature.name]?.map(\.builder) ?? [])"
+                "For \(signature) in \(position) no matching signatures found. Signatures for the given type: \(nodes[signature.hash]?.map(\.builder) ?? [])"
             )
         }
         else if allAcceptNodes.count > 1 {
